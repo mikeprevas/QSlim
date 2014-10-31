@@ -19,11 +19,13 @@ SOURCES += main.cpp \
     testmeta.cpp \
     qslimserver.cpp \
     slimincominghandler.cpp \
-    slimdeserializer.cpp
+    slimdeserializer.cpp \
+    slimserializer.cpp
 
 HEADERS += \
     testmeta.h \
     qslimserver.h \
     slimincominghandler.h \
     slimdeserializer.h \
-    syntaxerror.h
+    syntaxerror.h \
+    slimserializer.h
