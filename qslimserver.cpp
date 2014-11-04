@@ -34,7 +34,7 @@ void QSlimServer::onClientExited(SlimIncomingHandler *client)
           while (!client->isFinished());
           it = clientPool.erase(it);
           delete client;
-          qDebug() << "client died";
+          qDebug() << "QSlim client died";
           break;
       }
     }

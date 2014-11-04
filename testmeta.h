@@ -12,8 +12,10 @@ public:
 
 signals:
 public slots:
-    void hello(QString foo);
-
+    void table(QString foo);
+    void execute();
+    void reset();
+    void setDenominator(QString);
 };
 
 #endif // TESTMETA_H

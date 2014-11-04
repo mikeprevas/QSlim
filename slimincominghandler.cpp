@@ -3,7 +3,11 @@
 */
 
 #include <QDebug>
+#include <QString>
 #include "slimincominghandler.h"
+#include "slimdeserializer.h"
+#include "slimserializer.h"
+
 /* this is the time we wait for fitnesse to send data (in msec)
    after timeout the thread just dies
 */
@@ -22,6 +26,7 @@ SlimIncomingHandler::SlimIncomingHandler(QObject *parent, int socket) :
  */
 void SlimIncomingHandler::run()
 {
+    QString received;
     QTcpSocket tcpSocket;
     if (!tcpSocket.setSocketDescriptor(client))
     {
@@ -36,9 +41,18 @@ void SlimIncomingHandler::run()
     {
         if (tcpSocket.waitForReadyRead(FITNESSE_TIMEOUT))
         {
-            QString data = QString(tcpSocket.readAll());
-            qDebug() << data;
-            if (data.endsWith("bye\r\n")) // the later variant(\r\n) used when debugging since telnet adds \r\n
+            received.append(QString(tcpSocket.readAll()));
+            qDebug() << received;
+            if (received.size() > 6)
+            {
+                SlimDeserializer dser(received);
+                dser.getLength();
+                dser.deserialize();
+                // fixme failcheck
+                received ="";
+            }
+            // FIXME... parser
+            if (received.endsWith("bye\r\n")) // the later variant(\r\n) used when debugging since telnet adds \r\n
                 break;
         }
         else // timeout waitForDataTimeout

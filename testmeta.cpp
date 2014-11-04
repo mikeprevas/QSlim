@@ -6,7 +6,22 @@ TestMeta::TestMeta(QObject *parent) :
 {
 }
 
-void TestMeta::hello(QString foo)
+void TestMeta::table(QString foo)
 {
-    qDebug() << "ivoked" << foo;
+    qDebug() << "invoked =============" << foo;
+}
+
+void TestMeta::execute()
+{
+    qDebug() << "execute";
+}
+
+void TestMeta::reset()
+{
+    qDebug() << "reset";
+}
+
+void TestMeta::setDenominator(QString dom)
+{
+    qDebug() << "domonator invoke with value "+dom;
 }

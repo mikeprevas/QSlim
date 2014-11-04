@@ -20,7 +20,9 @@ SOURCES += main.cpp \
     qslimserver.cpp \
     slimincominghandler.cpp \
     slimdeserializer.cpp \
-    slimserializer.cpp
+    slimserializer.cpp \
+    item.cpp \
+    commandexecuter.cpp
 
 HEADERS += \
     testmeta.h \
@@ -28,4 +30,6 @@ HEADERS += \
     slimincominghandler.h \
     slimdeserializer.h \
     syntaxerror.h \
-    slimserializer.h
+    slimserializer.h \
+    item.h \
+    commandexecuter.h
