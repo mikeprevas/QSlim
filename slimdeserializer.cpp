@@ -26,9 +26,9 @@ SlimDeserializer::SlimDeserializer(QString input, QObject *parent) :
 SlimDeserializer::~SlimDeserializer()
 {
     qDebug() << "~SlimDeserialize 1";
-    foreach (Item *item, result)
+    foreach (Instruction *Instruction, result)
     {
-        delete item;
+        delete Instruction;
     }
     result.clear();
 
@@ -40,7 +40,7 @@ SlimDeserializer::~SlimDeserializer()
     subser.clear();
 }
 
-QList<Item*> &SlimDeserializer::deserialize()
+QList<Instruction*> &SlimDeserializer::deserialize()
 {
         ///  try {
     qDebug() << "deserialize" << serialized;
@@ -61,7 +61,7 @@ void SlimDeserializer::checkSerializedStringIsValid()
     throw SyntaxError("Can't deserialize empty string");
 }
 
-QList<Item*> &SlimDeserializer::deserializeString()
+QList<Instruction*> &SlimDeserializer::deserializeString()
 {
   checkForOpenBracket();
   deserializeList();
@@ -87,7 +87,7 @@ void SlimDeserializer::checkForOpenBracket()
     throw SyntaxError(QString("Can't find open bracket position %1").arg(index-1));
 }
 
-QList<Item*> &SlimDeserializer::deserialize(QString substring)
+QList<Instruction*> &SlimDeserializer::deserialize(QString substring)
 {
     SlimDeserializer *subs;
     subs = new SlimDeserializer(substring, this);
@@ -95,31 +95,31 @@ QList<Item*> &SlimDeserializer::deserialize(QString substring)
     return subs->deserialize();
 }
 
-QList<Item*> &SlimDeserializer::deserializeList()
+QList<Instruction*> &SlimDeserializer::deserializeList()
 {
-  int itemCount = getLength();
-  for (int i = 0; i < itemCount; i++)
-    deserializeItem();
+  int InstructionCount = getLength();
+  for (int i = 0; i < InstructionCount; i++)
+    deserializeInstruction();
 
   return result;
 }
 
-void SlimDeserializer::deserializeItem()
+void SlimDeserializer::deserializeInstruction()
 {
-  int itemLength = getLength();
-  QString str = getString(itemLength);
-  QList<Item*> sublist = maybeReadList(str);
+  int InstructionLength = getLength();
+  QString str = getString(InstructionLength);
+  QList<Instruction*> sublist = maybeReadList(str);
   if (sublist.isEmpty()) // if list empty insert string
-    result.append(new Item(str)); // insert as string since its not a list
+    result.append(new Instruction(str)); // insert as string since its not a list
   else //
-    result.append(new Item(sublist)); // insert list
+    result.append(new Instruction(sublist)); // insert list
 }
 
 /**
  * @return the string parsed as a list if possible, null otherwise
  */
 
-QList<Item*> &SlimDeserializer::maybeReadList(QString string)
+QList<Instruction*> &SlimDeserializer::maybeReadList(QString string)
 {
   if (string.trimmed()=="" || !string.startsWith("["))
     return nullList;
@@ -142,10 +142,10 @@ QString SlimDeserializer::getString(int length) {
   return result;
 }
 
-void SlimDeserializer::checkForColon(QString itemType)
+void SlimDeserializer::checkForColon(QString InstructionType)
 {
   if (getChar() != ':')
-    throw SyntaxError((itemType + " in serialized list not terminated by colon. index is %1").arg(index));
+    throw SyntaxError((InstructionType + " in serialized list not terminated by colon. index is %1").arg(index));
 }
 
 QChar SlimDeserializer::getChar()

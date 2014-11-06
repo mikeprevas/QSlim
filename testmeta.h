@@ -6,16 +6,20 @@
 class TestMeta : public QObject
 {
     Q_OBJECT
+    double denomerator;
+    double numerator;
 public:
 
     explicit TestMeta(QObject *parent = 0);
 
 signals:
 public slots:
-    void table(QString foo);
-    void execute();
-    void reset();
-    void setDenominator(QString);
+    QString table(QString foo);
+    QString execute();
+    QString reset();
+    QString setDenominator(QString);
+    QString setNumerator(QString);
+    QString quotient();
 };
 
 #endif // TESTMETA_H

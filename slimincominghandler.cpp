@@ -7,7 +7,8 @@
 #include "slimincominghandler.h"
 #include "slimdeserializer.h"
 #include "slimserializer.h"
-
+#include "slimincominghandler.h"
+#include "commandexecuter.h"
 /* this is the time we wait for fitnesse to send data (in msec)
    after timeout the thread just dies
 */
@@ -47,12 +48,16 @@ void SlimIncomingHandler::run()
             {
                 SlimDeserializer dser(received);
                 dser.getLength();
-                dser.deserialize();
+
+                CommandExecuter exe(dser.deserialize());
+                QString result = exe.executeAll();
+                qDebug() << "resultsend" << result.toUtf8();
+                tcpSocket.write(result.toUtf8());
                 // fixme failcheck
                 received ="";
             }
             // FIXME... parser
-            if (received.endsWith("bye\r\n")) // the later variant(\r\n) used when debugging since telnet adds \r\n
+            if (received.endsWith("bye")) // the later variant(\r\n) used when debugging since telnet adds \r\n
                 break;
         }
         else // timeout waitForDataTimeout

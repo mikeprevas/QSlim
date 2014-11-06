@@ -2,26 +2,46 @@
 #include "testmeta.h"
 
 TestMeta::TestMeta(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    denomerator(0.0),
+    numerator(0.0)
 {
 }
 
-void TestMeta::table(QString foo)
+QString TestMeta::table(QString foo)
 {
     qDebug() << "invoked =============" << foo;
+    return "";
 }
 
-void TestMeta::execute()
+QString TestMeta::execute()
 {
     qDebug() << "execute";
+    return "";
 }
 
-void TestMeta::reset()
+QString TestMeta::reset()
 {
-    qDebug() << "reset";
+    numerator = 0.0;
+    denomerator = 0.0;
+    return "";
 }
 
-void TestMeta::setDenominator(QString dom)
+QString TestMeta::setDenominator(QString dom)
 {
+    denomerator = dom.toDouble();
     qDebug() << "domonator invoke with value "+dom;
+    return "";
+}
+
+QString TestMeta::setNumerator(QString dom)
+{
+    numerator = dom.toDouble();
+    qDebug() << "numerator invoke with value "+dom;
+    return "";
+}
+
+QString TestMeta::quotient()
+{
+    return QString("foo %1").arg((double)denomerator/numerator);
 }

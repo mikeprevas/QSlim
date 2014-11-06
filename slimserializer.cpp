@@ -3,20 +3,20 @@
 
 /* used when response to commands comming from fitnesse server */
 
-SlimSerializer::SlimSerializer(QList<Item *>obj, QObject *parent) :
+SlimSerializer::SlimSerializer(QList<Instruction *>obj, QObject *parent) :
     QObject(parent),
     result(""),
     list()
 {
-    foreach (Item *item, obj)
+    foreach (Instruction *Instruction, obj)
     {
-        list.append(item);
+        list.append(Instruction);
     }
 }
 
-QString SlimSerializer::serialize(QList<Item*> list)
+QString SlimSerializer::serialize(QList<Instruction*> list)
 {
-    SlimSerializer *subser = new SlimSerializer(list);
+    SlimSerializer *subser = new SlimSerializer(list, this);
     return subser->serialize();
 }
 
@@ -25,7 +25,7 @@ QString SlimSerializer::serialize()
     result.append('[');
     appendLength(list.size());
 
-    foreach (Item *o, list) {
+    foreach (Instruction *o, list) {
       QString s = marshalObjectToString(o);
       appendLength(s.length());
 
@@ -36,17 +36,17 @@ QString SlimSerializer::serialize()
     return result;
 }
 
-QString SlimSerializer::marshalObjectToString(Item* o)
+QString SlimSerializer::marshalObjectToString(Instruction* o)
 {
     QString s;
     if (o == NULL)
       s = "";
-    else if (o->dataString.length())
-      s = QString(o->dataString);
-    else if (!o->items.isEmpty())
-      s = serialize(o->items);
+    else if (o->getString().length())
+      s = QString(o->getString());
+    else if (!o->instructions.isEmpty())
+      s = serialize(o->instructions);
     else
-        qDebug() << "Item string is empty and no list!?";
+        qDebug() << "Instruction string is empty and no list!?";
 
     return s;
 }

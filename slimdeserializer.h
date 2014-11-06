@@ -3,7 +3,7 @@
 #include <QString>
 #include <QDebug>
 #include <exception>
-#include "item.h"
+#include "instruction.h"
 
 class SlimDeserializer : public QObject
 {
@@ -11,14 +11,14 @@ class SlimDeserializer : public QObject
     int index;
     QString serialized;
     QList<SlimDeserializer*>subser;
-    QList<Item*>result;
-    QList<Item*>nullList;
+    QList<Instruction*>result;
+    QList<Instruction*>nullList;
   public:
     explicit SlimDeserializer(QString input, QObject *parent = 0);
     ~SlimDeserializer();
 
-    QList<Item*> &deserialize();
-    QList<Item*> &deserialize(QString sub);
+    QList<Instruction*> &deserialize();
+    QList<Instruction*> &deserialize(QString sub);
     int getLength();
   private:
     void checkSerializedStringIsValid();
@@ -27,10 +27,10 @@ class SlimDeserializer : public QObject
     bool charsLeft();
 
     void checkForOpenBracket();
-    QList<Item*> &deserializeString();
-    QList<Item*> &deserializeList();
+    QList<Instruction*> &deserializeString();
+    QList<Instruction*> &deserializeList();
 
-    void deserializeItem();
+    void deserializeInstruction();
     int tryGetLength();
 
 private:
@@ -39,11 +39,11 @@ private:
      * @return the string parsed as a list if possible, null otherwise
      */
 
-    QList<Item*> &maybeReadList(QString string);
+    QList<Instruction*> &maybeReadList(QString string);
 
     QString getString(int length);
 
-    void checkForColon(QString itemType);
+    void checkForColon(QString InstructionType);
 
     QChar getChar();
 

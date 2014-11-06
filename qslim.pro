@@ -21,8 +21,9 @@ SOURCES += main.cpp \
     slimincominghandler.cpp \
     slimdeserializer.cpp \
     slimserializer.cpp \
-    item.cpp \
-    commandexecuter.cpp
+    commandexecuter.cpp \
+    instruction.cpp \
+    responseitem.cpp
 
 HEADERS += \
     testmeta.h \
@@ -31,5 +32,6 @@ HEADERS += \
     slimdeserializer.h \
     syntaxerror.h \
     slimserializer.h \
-    item.h \
-    commandexecuter.h
+    commandexecuter.h \
+    instruction.h \
+    responseitem.h

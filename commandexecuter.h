@@ -2,13 +2,18 @@
 #define COMMANDEXECUTER_H
 #include <QList>
 #include <QString>
+#include "responseitem.h"
+#include "instruction.h"
 class CommandExecuter
 {
-    QString command;
-    QList <QString>args;
+    QList<Instruction*> &Instructions; // incoming
+    QList<ResponseItem> results;
 public:
-    CommandExecuter(QList <Item*>&ref);
-    void execute();
+    CommandExecuter(QList<Instruction*> &Instruction);
+    ~CommandExecuter();
+    QString executeAll();
+private:
+    QString serialize();
 };
 
 #endif // COMMANDEXECUTER_H

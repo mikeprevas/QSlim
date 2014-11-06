@@ -4,20 +4,20 @@
 #include <QObject>
 #include <QString>
 #include <QList>
-#include "item.h"
+#include "instruction.h"
 class SlimSerializer : public QObject
 {
     Q_OBJECT
     QString result;
-    QList<Item*> list;
+    QList<Instruction*> list;
 public:
-    explicit SlimSerializer(QList <Item*>, QObject *parent = 0);
+    explicit SlimSerializer(QList <Instruction*>, QObject *parent = 0);
 
-    QString serialize(QList<Item*> list);
+    QString serialize(QList<Instruction*> list);
     QString serialize();
 
 private:
-    QString marshalObjectToString(Item* o);
+    QString marshalObjectToString(Instruction* o);
     void appendString(QString s);
     void appendLength(int size);
 signals:
